@@ -86,7 +86,7 @@
 
 
 
-from cmu_112_graphics import *
+from graphics import *
 import copy,random
 
 ################# Board and Rules ################
