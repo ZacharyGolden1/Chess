@@ -1,12 +1,7 @@
-# cmu_112_graphics.py
-# version 0.8.6
-
-# Pre-release for CMU 15-112-f20
-
 # Require Python 3.6 or later
 import sys
 if ((sys.version_info[0] != 3) or (sys.version_info[1] < 6)):
-    raise Exception('cmu_112_graphics.py requires Python version 3.6 or later.')
+    raise Exception('graphics.py requires Python version 3.6 or later.')
 
 # Track version and file update timestamp
 import datetime
@@ -332,9 +327,9 @@ class App(object):
         inRedrawAllWrapper = False
         printLines = [ ]
         for line in lines:
-            if (('"cmu_112_graphics.py"' not in line) and
-                ('/cmu_112_graphics.py' not in line) and
-                ('\\cmu_112_graphics.py' not in line) and
+            if (('"graphics.py"' not in line) and
+                ('/graphics.py' not in line) and
+                ('\\graphics.py' not in line) and
                 ('/tkinter/' not in line) and
                 ('\\tkinter\\' not in line)):
                 printLines.append(line)
@@ -733,7 +728,7 @@ def showGraphics(drawFn, **kwargs):
 '''
 runApp = TopLevelApp
 
-print(f'Loaded cmu_112_graphics version {App.version} (last updated {App.lastUpdated})')
+print(f'Loaded graphics version {App.version} (last updated {App.lastUpdated})')
 
 if (__name__ == '__main__'):
     try: import cmu_112_graphics_tests
