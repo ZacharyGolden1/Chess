@@ -35,6 +35,8 @@
 # 0 for black
 # 1 for white
 
+# Next 6 bits will represent the piece location
+
 # next include four more bits:
 # pawns rooks and kings will utilize these bits for their respective
 # special moves:
