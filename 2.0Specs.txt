@@ -51,10 +51,10 @@
 Pawn example representation:
 
 1001100100000
-   ^^     ^ ^
-   12     3 4
+ ^ ^^     ^ ^
+ 0 12     3 4
 
-1 - Pawn
-2 - White
-3 - square 8
-4 - cannot en passant Right Now
+0-1 -> Pawn
+1-2 - White
+2-3 - square 8
+3-4 - cannot en passant Right Now
