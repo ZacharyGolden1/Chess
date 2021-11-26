@@ -18,43 +18,24 @@
 ###################################################
 ################### VERSIONS ######################
 ###################################################
-# Chess 2.0:
 
-# optimize for speed so the A.I. algorithm can run as fast as possible:
-# best way to represent the board: dictionary of strings for each piece
-# dict input is a 16-bit number
-# first 3 bits represent the piece:
-# 001 - pawn
-# 010 - rook
-# 011 - knight
-# 100 - bishop
-# 101 - queen
-# 110 - king
+# For reference
 
-# next a bit for which color the piece is
-# 0 for black
-# 1 for white
+# 000000 000001 000010 000011 000100 000101 000110 000111   0  1  2  3  4  5  6  7 
+# 001000 001001 001010 001011 001100 001101 001110 001111   8  9  10 11 12 13 14 15 
+# 010000 010001 010010 010011 010100 010101 010110 010111   16 17 18 19 20 21 22 23
+# 011000 011001 011010 011011 011100 011101 011110 011111   24 25 26 27 28 29 30 31
+# 100000 100001 100010 100011 100100 100101 100110 100111   32 33 34 35 36 37 38 39
+# 101000 101001 101010 101011 101100 101101 101110 101111   40 41 42 43 44 45 46 47
+# 110000 110001 110010 110011 110100 110101 110110 110111   48 49 50 51 52 53 54 55
+# 111000 111001 111010 111011 111100 111101 111110 111111   56 57 58 59 60 61 62 63
 
-# Next 6 bits will represent the piece location
-
-# next include four more bits:
-# pawns rooks and kings will utilize these bits for their respective
-# special moves:
-
-# For pawns:
-# the next bit will represent whether or not the piece
-# has been promoted
-# 0 for no
-# 1 for yes
-
-# the next two bits for the pawn will represent 
-# what piece it has been promoted to
-# 01 for rook
-# 10 for knight
-# 11 for bishop
-# 10 for queen
-
-# the last bit for the pawn will represent whether or not it can 
-# En Passant on the current move
-# 0 for no
-# 1 for yes
+class pieces:
+    board = dict.from_keys(["pawns","rooks","knights","bishops","queens","kings"])
+            #white
+    pawns = {0b1001100100000,0b1001100100100,0b1001100101000,0b1001100101100,
+             0b1001100110000,0b1001100110100,0b1001100111000,0b1001100111100,
+            #black
+             0b1001011000000,0b1001011000100,0b1001011001000,0b1001011001100,
+             0b1001011010000,0b1001011010100,0b1001011011000,0b1001011011100}
+    rooks = {a,,,}

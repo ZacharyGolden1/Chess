@@ -3,6 +3,9 @@
 # optimize for speed so the A.I. algorithm can run as fast as possible:
 # best way to represent the board: dictionary of strings for each piece
 # dict input is a 16-bit number
+
+# all pieces present on the board start with a 1
+
 # first 3 bits represent the piece:
 # 001 - pawn
 # 010 - rook
@@ -18,23 +21,40 @@
 # Next 6 bits will represent the piece location
 
 # next include four more bits:
-# pawns rooks and kings will utilize these bits for their respective
+# pawns rooks and kings will utilize these bits 
+# for their respective
 # special moves:
-
-# For pawns:
-# the next bit will represent whether or not the piece
-# has been promoted
-# 0 for no
-# 1 for yes
 
 # the next two bits for the pawn will represent 
 # what piece it has been promoted to
+# 00 for unpromoted
 # 01 for rook
 # 10 for knight
 # 11 for bishop
 # 10 for queen
 
-# the last bit for the pawn will represent whether or not it can 
+# the last bit for the pawn will represent 
+# whether or not it can 
 # En Passant on the current move
 # 0 for no
 # 1 for yes
+
+   0  1  2  3  4  5  6  7 
+   8  9  10 11 12 13 14 15 
+   16 17 18 19 20 21 22 23
+   24 25 26 27 28 29 30 31
+   32 33 34 35 36 37 38 39
+   40 41 42 43 44 45 46 47
+   48 49 50 51 52 53 54 55
+   56 57 58 59 60 61 62 63
+
+Pawn example representation:
+
+1001100100000
+   ^^     ^ ^
+   12     3 4
+
+1 - Pawn
+2 - White
+3 - square 8
+4 - cannot en passant Right Now
