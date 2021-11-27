@@ -50,11 +50,12 @@
 
 Pawn example representation:
 
-1001100100000
- ^ ^^     ^ ^
- 0 12     3 4
+10011001000000
+ ^ ^^     ^ ^^
+ 0 12     3 45
 
 0-1 -> Pawn
 1-2 - White
 2-3 - square 8
-3-4 - cannot en passant Right Now
+3-4 - Is still a pawn
+4-5 - cannot en passant this move

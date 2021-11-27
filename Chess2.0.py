@@ -30,16 +30,49 @@
 # 110000 110001 110010 110011 110100 110101 110110 110111   48 49 50 51 52 53 54 55
 # 111000 111001 111010 111011 111100 111101 111110 111111   56 57 58 59 60 61 62 63
 # rook   kinght bishop king   queen  bishop knight rook
-class pieces:
-    board = dict.from_keys(["pawns","rooks","knights","bishops","queens","kings"])
-            #white
-    pawns  =  {0b1001100100000,0b1001100100100,0b1001100101000,0b1001100101100,
-               0b1001100110000,0b1001100110100,0b1001100111000,0b1001100111100,
-               #black
-               0b1001011000000,0b1001011000100,0b1001011001000,0b1001011001100,
-               0b1001011010000,0b1001011010100,0b1001011011000,0b1001011011100}
-    rooks   = {0b1010100000000,0b1010100011100,0b1010011100000,0b1010011111100}
-    knights = {0b1011100000100,0b1011100011000,0b1011011100100,0b1011011111000}
-    bishops = {0b1100100001000,0b1100100010100,0b1100011101000,0b1100011110100}
-    kings   = {0b1101100001100,0b1101011101100}
-    queens  = {0b1110100010000,0b1110011110000}
+
+class Pieces:
+        board = dict.fromkeys(["pawns","rooks","knights","bishops","queens","kings"])
+                   #white
+        pawns  =  [0b10011001000000,0b10011001001000,0b10011001010000,0b10011001011000,
+                   0b10011001100000,0b10011001101000,0b10011001110000,0b10011001111000,
+                   #black
+                   0b10010110000000,0b10010110001000,0b10010110010000,0b10010110011000,
+                   0b10010110100000,0b10010110101000,0b10010110110000,0b10010110111000]
+        rooks   = [0b10101000000000,0b10101000111000,0b10100111000000,0b10100111111000]
+        knights = [0b10111000001000,0b10111000110000,0b10110111001000,0b10110111110000]
+        bishops = [0b11001000010000,0b11001000101000,0b11000111010000,0b11000111101000]
+        kings   = [0b11011000011000,0b11010111011000]
+        queens  = [0b11101000100000,0b11100111100000]
+
+        def initBoard(self):
+                self.board["pawns"]   = self.pawns
+                self.board["rooks"]   = self.rooks
+                self.board["knights"] = self.knights
+                self.board["bishops"] = self.bishops
+                self.board["kings"]   = self.kings
+                self.board["queens"]  = self.queens
+
+                return self.board
+
+class Info:
+        def name(self,pc):
+                return (pc >> 9) & 0b01111
+        
+        def position(self,pc):
+                return (pc >> 3) & 0b0000111111
+        
+        def state(self,pc):
+                return pc & 0b000000000000111
+
+class Play:
+        board = Pieces.board
+        pcs = list(board.values())
+        def getMoves(self, pcs):
+                for pc in pcs:
+                        pass
+                return
+
+
+
+
