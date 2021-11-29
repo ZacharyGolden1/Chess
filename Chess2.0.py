@@ -20,18 +20,20 @@
 ###################################################
 
 # For reference
-# rook   kinght bishop king   queen  bishop knight rook
-# 000000 000001 000010 000011 000100 000101 000110 000111   0  1  2  3  4  5  6  7 
-# 001000 001001 001010 001011 001100 001101 001110 001111   8  9  10 11 12 13 14 15 
-# 010000 010001 010010 010011 010100 010101 010110 010111   16 17 18 19 20 21 22 23
-# 011000 011001 011010 011011 011100 011101 011110 011111   24 25 26 27 28 29 30 31
-# 100000 100001 100010 100011 100100 100101 100110 100111   32 33 34 35 36 37 38 39
-# 101000 101001 101010 101011 101100 101101 101110 101111   40 41 42 43 44 45 46 47
-# 110000 110001 110010 110011 110100 110101 110110 110111   48 49 50 51 52 53 54 55
-# 111000 111001 111010 111011 111100 111101 111110 111111   56 57 58 59 60 61 62 63
-# rook   kinght bishop king   queen  bishop knight rook
+#       0     1      2     3       4      5      6     7   
+#    rook   kinght bishop king   queen  bishop knight rook
+# 0  000000 000001 000010 000011 000100 000101 000110 000111   0  1  2  3  4  5  6  7 
+# 1  001000 001001 001010 001011 001100 001101 001110 001111   8  9  10 11 12 13 14 15 
+# 2  010000 010001 010010 010011 010100 010101 010110 010111   16 17 18 19 20 21 22 23
+# 3  011000 011001 011010 011011 011100 011101 011110 011111   24 25 26 27 28 29 30 31
+# 4  100000 100001 100010 100011 100100 100101 100110 100111   32 33 34 35 36 37 38 39
+# 5  101000 101001 101010 101011 101100 101101 101110 101111   40 41 42 43 44 45 46 47
+# 6  110000 110001 110010 110011 110100 110101 110110 110111   48 49 50 51 52 53 54 55
+# 7  111000 111001 111010 111011 111100 111101 111110 111111   56 57 58 59 60 61 62 63
+#    rook   kinght bishop king   queen  bishop knight rook
 
 class Pieces:
+        plr = 1
         board = dict.fromkeys(["pawns","rooks","knights","bishops","queens","kings"])
                    #white
         pawns  =  [0b10011001000000,0b10011001001000,0b10011001010000,0b10011001011000,
@@ -45,7 +47,7 @@ class Pieces:
         kings   = [0b11011000011000,0b11010111011000]
         queens  = [0b11101000100000,0b11100111100000]
 
-        def initBoard(self):
+        def __init__(self):
                 self.board["pawns"]   = self.pawns
                 self.board["rooks"]   = self.rooks
                 self.board["knights"] = self.knights
@@ -53,26 +55,156 @@ class Pieces:
                 self.board["kings"]   = self.kings
                 self.board["queens"]  = self.queens
 
-                return self.board
-
 class Info:
+        def asciiChar(self,pc):
+                # pawns
+                if (self.name(self,pc) == 0b001 and 
+                    self.color(self,pc) == 1):
+                        return '\u2659'
+                elif (self.name(self,pc) == 0b001 and 
+                    self.color(self,pc) == 0):
+                        return '\u265F'
+                # rooks
+                elif (self.name(self,pc) == 0b010 and 
+                    self.color(self,pc) == 1):
+                        return '\u2656'
+                elif (self.name(self,pc) == 0b010 and 
+                    self.color(self,pc) == 0):
+                        return '\u265C'
+                # knights
+                elif (self.name(self,pc) == 0b011 and 
+                    self.color(self,pc) == 1):
+                        return '\u2658'
+                elif (self.name(self,pc) == 0b011 and 
+                    self.color(self,pc) == 0):
+                        return '\u265E'
+                # bishops
+                elif (self.name(self,pc) == 0b100 and 
+                    self.color(self,pc) == 1):
+                        return '\u2656'
+                elif (self.name(self,pc) == 0b100 and 
+                    self.color(self,pc) == 0):
+                        return '\u265D'
+                # queens
+                elif (self.name(self,pc) == 0b101 and 
+                    self.color(self,pc) == 1):
+                        return '\u2655'
+                elif (self.name(self,pc) == 0b101 and 
+                    self.color(self,pc) == 0):
+                        return '\u265B'
+                # kings
+                elif (self.name(self,pc) == 0b110 and 
+                    self.color(self,pc) == 1):
+                        return '\u2654'
+                elif (self.name(self,pc) == 0b110 and 
+                    self.color(self,pc) == 0):
+                        return '\u265A'
+
         def name(self,pc):
                 return (pc >> 9) & 0b01111
+
+        def color(self,pc):
+                return (pc >> 10) & 0b00001
         
         def position(self,pc):
                 return (pc >> 3) & 0b0000111111
         
         def state(self,pc):
                 return pc & 0b000000000000111
+        
+        def row(self, pc):
+                return (self.position(self, pc) & 0b111000) >> 3
+        
+        def col(self, pc):
+                return self.position(self, pc) % 8
 
-class Play:
-        board = Pieces.board
-        pcs = list(board.values())
-        def getMoves(self, pcs):
-                for pc in pcs:
-                        pass
+class Heuristic:
+        def boardWorth (self,board):
                 return
 
+class Play:
+        # current board at this move
+        UIboard = Pieces.board
+        AIboard = set(UIboard.values())
+        board   = list(UIboard.values())
+        plr     = Pieces.plr
 
+        def getPawnMove(self,pc,board):
+                return # list of all sets of moves
 
+        def getRookMove(self,pc,board):
+                return # list of all sets of moves
 
+        def getKnightMove(self,pc,board):
+                return # list of all sets of moves
+
+        def getBishopMove(self,pc,board):
+                return # list of all sets of moves
+        
+        def getQueenMove(self,pc,board):
+                return # list of all sets of moves
+
+        def getKingMove(self,pc,board):
+                return # list of all sets of moves
+        
+        def makeMove(self,pc,board):
+                if Info.name(pc) == 0b001:
+                        pass
+                return # list of all sets of moves
+
+        def getMoves(self, board, plr):
+                newBoards = dict()
+                mv = 0
+                for pc in board:
+                        if Info.color(pc) == plr:
+                                newBoards.update({mv : self.makeMove(pc,board)})
+                        mv += 1
+                return newBoards
+
+class TerminalUI:
+        def showTBoard(self, board: set):
+                pcLocs = dict()
+                b = list()
+
+                for key in board:
+                        for el in board[key]:
+                                b.append(el)
+
+                for pc in b:
+                        pcLocs.update({pc : (Info.row(Info, pc), Info.col(Info, pc))} )
+                
+                chck = False
+                for row in range(8):
+                        for col in range(8):
+                                chck = False
+                                for crd in pcLocs:
+                                        if pcLocs[crd] == (row,col):
+                                                print(Info.asciiChar(Info, crd),end='  ')
+                                                chck = True
+
+                                if col == 7:
+                                        print(f'{row+1}\n')
+                                elif chck == False:
+                                        print('.',end='  ')
+
+                print('A  B  C  D  E  F  G  H')
+
+class Tstart:
+        def start(self,board):
+                TerminalUI.showTBoard(TerminalUI, board)
+
+class TkinterUI:
+        def showAIBoard(self,board):
+                return
+
+class MinimaxAB:
+        depth = 0
+        # boards = Play.getMoves(Play, Play.board, Pieces.plr)
+        def minimax(self,depth,boards):
+                return
+
+# test
+# Pieces.initBoard
+# Tstart.start(Tstart, Pieces.board)
+c = Pieces()
+TerminalUI.showTBoard(TerminalUI, Pieces.board)

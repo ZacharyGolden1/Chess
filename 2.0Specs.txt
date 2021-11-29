@@ -1,5 +1,8 @@
 # Chess 2.0:
 
+# board for the UI is a dict of lists
+# board for the AI is a set of pieces
+
 # optimize for speed so the A.I. algorithm can run as fast as possible:
 # best way to represent the board: dictionary of strings for each piece
 # dict input is a 16-bit number
@@ -54,7 +57,7 @@ Pawn example representation:
  ^ ^^     ^ ^^
  0 12     3 45
 
-0-1 -> Pawn
+0-1 - Pawn
 1-2 - White
 2-3 - square 8
 3-4 - Is still a pawn
