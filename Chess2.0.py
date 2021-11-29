@@ -101,7 +101,7 @@ class Info:
                         return '\u265A'
 
         def name(self,pc):
-                return (pc >> 9) & 0b01111
+                return (pc >> 10) & 0b0111
 
         def color(self,pc):
                 return (pc >> 10) & 0b00001
@@ -177,12 +177,14 @@ class TerminalUI:
                 for row in range(8):
                         for col in range(8):
                                 chck = False
-                                for crd in pcLocs:
-                                        if pcLocs[crd] == (row,col):
-                                                print(Info.asciiChar(Info, crd),end='  ')
+                                for pc in pcLocs:
+                                        if pcLocs[pc] == (row,col):
+                                                print(Info.asciiChar(Info, pc),end='  ')
                                                 chck = True
 
                                 if col == 7:
+                                        if chck == False:
+                                                print('.',end='  ')
                                         print(f'{row+1}\n')
                                 elif chck == False:
                                         print('.',end='  ')
