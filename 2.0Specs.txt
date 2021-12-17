@@ -10,7 +10,8 @@
 # all pieces present on the board start with a 1
 
 # first 3 bits represent the piece:
-# 001 - pawn
+# 000 - pawn can advance 2 spaces
+# 001 - pawn cannot advance 2 spaces
 # 010 - rook
 # 011 - knight
 # 100 - bishop
@@ -30,11 +31,11 @@
 
 # the next two bits for the pawn will represent 
 # what piece it has been promoted to
-# 00 for unpromoted
-# 01 for rook
-# 10 for knight
-# 11 for bishop
-# 10 for queen
+# 000 for unpromoted 
+# 001 for rook
+# 010 for knight
+# 011 for bishop
+# 100 for queen
 
 # the last bit for the pawn will represent 
 # whether or not it can 
@@ -42,15 +43,20 @@
 # 0 for no
 # 1 for yes
 
-   0  1  2  3  4  5  6  7 
-   8  9  10 11 12 13 14 15 
-   16 17 18 19 20 21 22 23
-   24 25 26 27 28 29 30 31
-   32 33 34 35 36 37 38 39
-   40 41 42 43 44 45 46 47
-   48 49 50 51 52 53 54 55
-   56 57 58 59 60 61 62 63
+# the last bit for the rook or king will represent 
+# whether or not it can Castle
+# 0 for no
+# 1 for yes
 
+   0  1  2  3  4  5  6  7   1
+   8  9  10 11 12 13 14 15  2
+   16 17 18 19 20 21 22 23  3
+   24 25 26 27 28 29 30 31  4
+   32 33 34 35 36 37 38 39  5
+   40 41 42 43 44 45 46 47  6
+   48 49 50 51 52 53 54 55  7
+   56 57 58 59 60 61 62 63  8
+   A  B  C  D  E  F  G  H
 Pawn example representation:
 
 10011001000000

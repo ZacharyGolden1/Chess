@@ -34,28 +34,62 @@
 
 class Pieces:
         plr = 1
-        board = dict.fromkeys(["pawns","rooks","knights","bishops","queens","kings"])
+        dboard = dict.fromkeys(["pawns","rooks","knights","bishops","queens","kings"])
+        lboard = list()
+        sboard = set()
                    #white
-        pawns  =  [0b10011001000000,0b10011001001000,0b10011001010000,0b10011001011000,
-                   0b10011001100000,0b10011001101000,0b10011001110000,0b10011001111000,
+        pawns  =  [0b10001001000000,0b10001001001000,0b10001001010000,0b10001001011000,
+                   0b10001001100000,0b10001001101000,0b10001001110000,0b10001001111000,
                    #black
-                   0b10010110000000,0b10010110001000,0b10010110010000,0b10010110011000,
-                   0b10010110100000,0b10010110101000,0b10010110110000,0b10010110111000]
-        rooks   = [0b10101000000000,0b10101000111000,0b10100111000000,0b10100111111000]
+                   0b10000110000000,0b10000110001000,0b10000110010000,0b10000110011000,
+                   0b10000110100000,0b10000110101000,0b10000110110000,0b10000110111000]
+        rooks   = [0b10101000000001,0b10101000111001,0b10100111000001,0b10100111111001]
         knights = [0b10111000001000,0b10111000110000,0b10110111001000,0b10110111110000]
         bishops = [0b11001000010000,0b11001000101000,0b11000111010000,0b11000111101000]
-        kings   = [0b11011000011000,0b11010111011000]
+        kings   = [0b11011000011001,0b11010111011001]
         queens  = [0b11101000100000,0b11100111100000]
 
+        
+
         def __init__(self):
-                self.board["pawns"]   = self.pawns
-                self.board["rooks"]   = self.rooks
-                self.board["knights"] = self.knights
-                self.board["bishops"] = self.bishops
-                self.board["kings"]   = self.kings
-                self.board["queens"]  = self.queens
+                self.dboard["pawns"]   = self.pawns
+                self.dboard["rooks"]   = self.rooks
+                self.dboard["knights"] = self.knights
+                self.dboard["bishops"] = self.bishops
+                self.dboard["kings"]   = self.kings
+                self.dboard["queens"]  = self.queens
+
+                self.lboard.append(self.pawns,self.rooks,self.knights,
+                                   self.bishops,self.kings,self.queens)
+                
+                for pc in self.lboard:
+                        self.sboard.add(pc)
+
+class Update:
+        def newPosition(self, pc, pos):
+                return (pc & 0b11110000001111) + (pos << 4)
 
 class Info:
+        def square(self, pc):
+                sq = ""
+                if self.col(self, pc) == 1:
+                        sq + "a" + str(self.row(self,pc))
+                if self.col(self, pc) == 2:
+                        sq + "b" + str(self.row(self,pc))
+                if self.col(self, pc) == 3:
+                        sq + "c" + str(self.row(self,pc))
+                if self.col(self, pc) == 4:
+                        sq + "d" + str(self.row(self,pc))
+                if self.col(self, pc) == 5:
+                        sq + "e" + str(self.row(self,pc))
+                if self.col(self, pc) == 6:
+                        sq + "f" + str(self.row(self,pc))
+                if self.col(self, pc) == 7:
+                        sq + "g" + str(self.row(self,pc))
+                if self.col(self, pc) == 8:
+                        sq + "h" + str(self.row(self,pc))
+                return sq
+
         def asciiChar(self,pc):
                 # pawns
                 if (self.name(self,pc) == 0b001 and 
@@ -112,44 +146,87 @@ class Info:
         def state(self,pc):
                 return pc & 0b000000000000111
         
+        def active(self,pc):
+                return pc >> 13
+        
         def row(self, pc):
                 return (self.position(self, pc) & 0b111000) >> 3
         
         def col(self, pc):
                 return self.position(self, pc) % 8
+        
+        def positionColor(self,pc):
+                return (self.position(self, pc) << 1) + self.color(self,pc)
 
 class Heuristic:
-        def boardWorth (self,board):
+        def boardWorth (self,board: dict):
                 return
 
 class Play:
+        def move(self, mv : str):
+                return
+
+class GenerateMoves:
         # current board at this move
-        UIboard = Pieces.board
-        AIboard = set(UIboard.values())
-        board   = list(UIboard.values())
+        UIboard = Pieces.dboard
+        AIboard = Pieces.sboard
+        board   = Pieces.lboard
         plr     = Pieces.plr
+        positions = set()
+        for pc in Pieces.lboard:
+                positions.append(Info.position(Info, pc))
+        moves = set()
 
-        def getPawnMove(self,pc,board):
-                return # list of all sets of moves
-
-        def getRookMove(self,pc,board):
-                return # list of all sets of moves
-
-        def getKnightMove(self,pc,board):
-                return # list of all sets of moves
-
-        def getBishopMove(self,pc,board):
-                return # list of all sets of moves
-        
-        def getQueenMove(self,pc,board):
-                return # list of all sets of moves
-
-        def getKingMove(self,pc,board):
-                return # list of all sets of moves
-        
-        def makeMove(self,pc,board):
-                if Info.name(pc) == 0b001:
-                        pass
+        def getMovesFromBoard(self,pc,board : list):
+                for pc in board:
+                        # white pawn
+                        if ((Info.name(Info, pc) == 0b001 or Info.name(Info, pc) == 0b000) and
+                             Info.color(Info, pc) == 1):
+                                if (Info.name(Info, pc) == 0b000 and 
+                                   Info.position(Info, pc) - 16 not in self.positions):
+                                        self.moves.add("p" + Info.square(Info, Update.newPosition(Update, pc, (Info.position(Info, pc) - 16))))
+                                elif (Info.name(Info, pc) == 0b001 and 
+                                   Info.position(Info, pc) - 8 not in self.positions):
+                                        self.moves.add("p" + Info.square(Info, Update.newPosition(Update, pc, (Info.position(Info, pc) - 8))))
+                        # black pawn
+                        if ((Info.name(pc) == 0b001 or Info.name(Info, pc) == 0b000) and 
+                             Info.color == 0):
+                                if (Info.name(Info, pc) == 0b000 and 
+                                   Info.position(Info, pc) + 16 not in self.positions):
+                                        self.moves.add("p" + Info.square(Info, Update.newPosition(Update, pc, (Info.position(Info, pc) + 16))))
+                                elif (Info.name(Info, pc) == 0b001 and 
+                                   Info.position(Info, pc) + 8 not in self.positions):
+                                        self.moves.add("p" + Info.square(Info, Update.newPosition(Update, pc, (Info.position(Info, pc) + 8))))
+                        # white rook
+                        if Info.name(pc) == 0b010 and Info.color == 1:
+                                pass
+                        # black rook
+                        if Info.name(pc) == 0b010 and Info.color == 0:
+                                pass
+                        # white knight
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # black knight
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # white bishop
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # black bishop
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # white queen
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # black queen
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # white king
+                        if Info.name(pc) == 0b001:
+                                pass
+                        # black king
+                        if Info.name(pc) == 0b001:
+                                pass
                 return # list of all sets of moves
 
         def getMoves(self, board, plr):
@@ -196,7 +273,7 @@ class Tstart:
                 TerminalUI.showTBoard(TerminalUI, board)
 
 class TkinterUI:
-        def showAIBoard(self,board):
+        def showUIBoard(self,board):
                 return
 
 class MinimaxAB:
@@ -204,9 +281,15 @@ class MinimaxAB:
         # boards = Play.getMoves(Play, Play.board, Pieces.plr)
         def minimax(self,depth,boards):
                 return
+        
+        def mini(self):
+                return
+        
+        def maxi(self):
+                return
 
 # test
 # Pieces.initBoard
 # Tstart.start(Tstart, Pieces.board)
-c = Pieces()
-TerminalUI.showTBoard(TerminalUI, Pieces.board)
+# c = Pieces()
+# TerminalUI.showTBoard(TerminalUI, Pieces.board)
